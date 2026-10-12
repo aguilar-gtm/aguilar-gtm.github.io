@@ -254,7 +254,8 @@ const GATES=["slop","claims","dnc"];
 /* ---------- signal desk ---------- */
 const rowsEl=document.getElementById("rows"), draftEl=document.getElementById("draft");
 let tick=0, selected=null;
-function stamp(){const d=new Date(Date.now()-tick*47000);return d.toTimeString().slice(0,5)}
+const T0=Date.now()-6*47000;
+function stamp(){const d=new Date(Math.min(Date.now(),T0+tick*47000));return d.toTimeString().slice(0,5)}
 function chipHTML(s){return s.gates.map((g,i)=>`<span class="chip ${g}">${GATES[i]} ${g==="p"?"✓":g==="f"?"✕":"!"}</span>`).join("")}
 function addRow(){
   const s=SIGNALS[tick%SIGNALS.length]; tick++;
