@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agency engine · Alejandro Aguilar Alarcon</title>
+<meta name="description" content="The outbound engine behind a Lima lead-generation agency: lists, copy, client console, site. Case study; partial source public.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="bar"><div class="wrap mono"><a href="/" style="text-decoration:none">aguilar-gtm</a><nav><a class="hide-s" href="/#private">private builds</a><a href="https://github.com/aguilar-gtm">github</a><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">linkedin</a></nav></div></header>
+<main class="case"><div class="spine" aria-hidden="true"></div>
+
+<section class="stage pass"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>case · agency engine</b><span class="badge">list layer public · the rest private</span></div>
+  <h1>An outbound agency where the operator never has to remember a rule.</h1>
+  <p class="lede">This is the engine behind the lead-generation agency I run in Lima. It covers the whole path: account lists, the copy, a console for each client, and the public site. It started as a rebuild of outbound systems whose safety rules lived in prose that only their author read. The thesis is that any rule a new SDR would have to read to stay safe gets turned into code, or it doesn't exist.</p>
+  <div class="nums">
+    <div><b>510</b><span>automated tests</span></div>
+    <div><b>0</b><span>purchased contacts: public registries only</span></div>
+    <div><b>51/51</b><span>gates per generated client console</span></div>
+    <div><b>100</b><span>word cap per email, enforced in code</span></div>
+  </div>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>01 · shape</b><span>seven verbs, one door</span></div>
+  <h2>One command tells the operator what to do next, and why.</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 980 230" role="img" aria-label="Agency engine pipeline">
+      <rect class="box" x="10" y="20" width="150" height="54" rx="4"/><text class="t" x="22" y="44">list</text><text class="d" x="22" y="62">registries, SEC, YC</text>
+      <rect class="box" x="175" y="20" width="150" height="54" rx="4"/><text class="t" x="187" y="44">contact</text><text class="d" x="187" y="62">company's own site</text>
+      <rect class="box" x="340" y="20" width="150" height="54" rx="4"/><text class="t" x="352" y="44">write</text><text class="d" x="352" y="62">intake to spintax copy</text>
+      <rect class="box" x="505" y="20" width="150" height="54" rx="4"/><text class="t" x="517" y="44">console</text><text class="d" x="517" y="62">generated per client</text>
+      <rect class="gate" x="670" y="20" width="140" height="54" rx="4"/><text class="t" x="682" y="44">send</text><text class="d" x="682" y="62">refuses: open decision</text>
+      <rect class="box" x="825" y="20" width="145" height="54" rx="4"/><text class="t" x="837" y="44">learn</text><text class="d" x="837" y="62">results feed back</text>
+      <path class="ln" d="M160 47 H175 M325 47 H340 M490 47 H505 M655 47 H670 M810 47 H825"/>
+      <rect class="box" x="10" y="120" width="960" height="44" rx="4"/>
+      <text class="t" x="22" y="140">lg today</text><text class="d" x="110" y="140">reads every stage's receipts from disk and prints the ordered queue: who acts, why, and what it read</text>
+      <text class="d" x="22" y="156">a stage that can't verify its precondition prints BLOCKED and names the fix. It never prints N/A in green.</text>
+      <path class="ln" d="M85 74 V120 M250 74 V120 M415 74 V120 M580 74 V120 M740 74 V120 M897 74 V120"/>
+      <text class="d" x="10" y="200">The list layer (list, contact, ICP schema) is public: github.com/aguilar-gtm/outbound-engine</text>
+    </svg>
+  </figure>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>02 · decisions</b><span>what makes it operator-grade</span></div>
+  <h2>The defects it was built to make impossible.</h2>
+  <ol class="mech">
+    <li><div><b>A gate that can't check has to fail, never go quiet.</b><p>Outbound systems fail in three silent ways. A safety indicator whose two branches print the same string, so it can only ever report "safe". A bounce rate divided by the wrong denominator, which dilutes a real failure by the number of steps in the sequence. A check whose input disappeared, so it reports "N/A" in green. Every gate now prints what it checked, the value it read and the threshold.</p></div></li>
+    <li><div><b>Copy is generated from a filled intake, never from vibes.</b><p>The client onboarding form has 27 fields, 7 of them mandatory. An empty required field fails and names itself, because an empty fact is something the copy will later try to cite. Spintax depth is calibrated against a measured reference sequence (6 to 23 alternatives per sentence block), and emails are capped at 100 words and two questions.</p></div></li>
+    <li><div><b>Each client console is generated from disk.</b><p>A client's console isn't hand-built. It's generated from their account list, intake, sprints and receipts, and it shows a "read from disk" badge. Four gates assert that mode, among them zero typed tax IDs, zero typed addresses, and an inbox that refuses to compose when the data isn't there.</p></div></li>
+    <li><div><b>The public demo can be played with but not lifted.</b><p>Visitors can use the live console, and copying its code is expensive. At publish time the code is obfuscated and domain-locked, and served with a CSP built from sha256 hashes. Those hashes are computed over line-ending-normalized script text: the first deploy hashed the bytes on disk, and the browser blocked the site's own navigation. A gate compares every screen pixel-for-pixel before and after, against a measured noise baseline.</p></div></li>
+  </ol>
+  <p class="ask">Withheld: the copywriting step, the console, the site, and every client's data and copy. The list layer is public in <a href="https://github.com/aguilar-gtm/outbound-engine">outbound-engine</a>. The console is replayed on synthetic accounts on the <a href="/#console">home page</a>. Walkthrough of the rest on request.</p>
+  <p class="note mono">Stack: Python (standard library) · vanilla JS · Cloudflare Pages · javascript-obfuscator · Playwright for visual gates.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="gateline mono"><b>next</b><a href="/work/signal-desk.html">signal desk</a><a href="/work/agent-os.html">agent OS</a><a href="/work/video-engine.html">video engine</a></div></div></footer>
+</body>
+</html>

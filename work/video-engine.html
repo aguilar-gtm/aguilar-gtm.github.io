@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video engine · Alejandro Aguilar Alarcon</title>
+<meta name="description" content="A local AI video production engine with 27 quality gates. Case study; code private.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="bar"><div class="wrap mono"><a href="/" style="text-decoration:none">aguilar-gtm</a><nav><a class="hide-s" href="/#private">private builds</a><a href="https://github.com/aguilar-gtm">github</a><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">linkedin</a></nav></div></header>
+<main class="case"><div class="spine" aria-hidden="true"></div>
+
+<section class="stage pass"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>case · video engine</b><span class="badge">code private · walkthrough on request</span></div>
+  <h1>A video production engine that won't deliver a film it hasn't measured.</h1>
+  <p class="lede">I built this for client video work: script, voice, picture, music and final cut, on open models running on a single 8 GB GPU at $0 marginal cost. The hard part wasn't generating video. It was knowing, before a client saw it, that the output was right. So every stage has to prove itself in code before the next one starts.</p>
+  <div class="nums">
+    <div><b>27</b><span>gate modules</span></div>
+    <div><b>145</b><span>cases in the slop gate's suite</span></div>
+    <div><b>15</b><span>sound engine organs</span></div>
+    <div><b>$0</b><span>marginal cost per render</span></div>
+  </div>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>01 · shape</b><span>how a piece moves</span></div>
+  <h2>Every arrow is a hash-bound receipt.</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 980 250" role="img" aria-label="Pipeline: brief gates, production stages, judgment gates, delivery">
+      <text class="d" x="10" y="20">BEFORE ANYTHING IS MADE</text>
+      <rect class="box" x="10" y="32" width="120" height="44" rx="4"/><text class="t" x="22" y="58">story</text>
+      <rect class="box" x="145" y="32" width="120" height="44" rx="4"/><text class="t" x="157" y="58">statement</text>
+      <rect class="box" x="280" y="32" width="120" height="44" rx="4"/><text class="t" x="292" y="58">route · cost</text>
+      <rect class="box" x="415" y="32" width="120" height="44" rx="4"/><text class="t" x="427" y="58">hostcheck</text>
+      <text class="d" x="10" y="116">PRODUCTION</text>
+      <rect class="box" x="10" y="128" width="95" height="44" rx="4"/><text class="t" x="22" y="154">script</text>
+      <rect class="box" x="115" y="128" width="95" height="44" rx="4"/><text class="t" x="127" y="154">voice</text>
+      <rect class="box" x="220" y="128" width="95" height="44" rx="4"/><text class="t" x="232" y="154">picture</text>
+      <rect class="box" x="325" y="128" width="95" height="44" rx="4"/><text class="t" x="337" y="154">comps</text>
+      <rect class="box" x="430" y="128" width="95" height="44" rx="4"/><text class="t" x="442" y="154">montage</text>
+      <rect class="box" x="535" y="128" width="95" height="44" rx="4"/><text class="t" x="547" y="154">mix</text>
+      <text class="d" x="660" y="116">JUDGED ON THE FINISHED FILE</text>
+      <rect class="box" x="660" y="128" width="90" height="44" rx="4"/><text class="t" x="672" y="154">slop</text>
+      <rect class="box" x="760" y="128" width="90" height="44" rx="4"/><text class="t" x="772" y="154">watch</text>
+      <rect class="gate" x="860" y="128" width="110" height="44" rx="4"/><text class="t" x="872" y="154">delivery</text>
+      <path class="ln" d="M535 54 H600 V100 H58 V128"/>
+      <path class="ln" d="M630 150 H660 M750 150 H760 M850 150 H860"/>
+      <text class="d" x="660" y="205">delivery refuses unless every declared stage has a PASS</text>
+      <text class="d" x="660" y="222">receipt whose sha256 still matches the file on disk</text>
+    </svg>
+    <figcaption class="mono">Simplified. The real run declares its own stages, and story, capability, slop and watch are mandatory whatever it declares.</figcaption>
+  </figure>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>02 · decisions</b><span>each one earned by a failure</span></div>
+  <h2>Every gate is named after the failure that earned it.</h2>
+  <ol class="mech">
+    <li><div><b>Voice takes are re-heard, not trusted.</b><p>A 34-line voiceover shipped with 11 defective takes. The script said 1930, the audio said 1960, and the film's thesis line came out as a different sentence. Every take is now transcribed back and diffed against the script before picture starts.</p><span class="why">the rule already existed in prose; the stage ran without it</span></div></li>
+    <li><div><b>Renders are costed from disk before the GPU starts.</b><p>A 43-second cut took about 7 hours, and the deterministic layers took 7 minutes of that. The route gate refuses any plan whose rate came from a smoke test, or that was never compared against a cheaper route.</p><span class="why">generative vs deterministic, same film: 67:1</span></div></li>
+    <li><div><b>The machine is measured, not assumed.</b><p>A take predicted at 49 minutes ran 308 because free RAM sat at 0.2 GB and the model paged through disk the whole time. Nothing errored. Commit headroom and free physical RAM are different numbers, so the gate reads both.</p><span class="why">49 min predicted, 308 actual</span></div></li>
+    <li><div><b>A runaway job can't take the machine down.</b><p>An unbounded loop reached 59.4 GB of commit and crashed the workstation twice in one evening. Every entry point now runs inside a Win32 job-object memory ceiling, which proves itself in both directions before the job starts.</p><span class="why">a cap that refused everything would pass a one-sided test</span></div></li>
+    <li><div><b>The instruments get tested before the output does.</b><p>The sound suite's first full run had 21 failures, and 17 of them were the measuring instruments: a pitch tracker that read 523 Hz as 381, and a note detector that shattered notes. Instruments now run first against signals with a known answer.</p><span class="why">a check and the thing it checks can't share an author</span></div></li>
+    <li><div><b>Licences are enforced in code.</b><p>The local voice-clone model is non-commercial. A guard refuses to load it on any billable run, and narration falls back to an Apache-2.0 model. The routes that are cleared for commercial use live in a ledger, not in memory.</p><span class="why">client work can't depend on a licence nobody read</span></div></li>
+  </ol>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>03 · craft</b><span>beyond the gates</span></div>
+  <h2>Some problems were solved by not using AI.</h2>
+  <ol class="mech">
+    <li><div><b>Continuous take, zero cuts, on 8 GB.</b><p>A sub-5-second cut rhythm is the tell of every cheap AI ad. So the engine chains latents into one continuous 15-second take, using a 14B image-to-video model quantized to fit an 8 GB card. That costs about 16 minutes per clip.</p></div></li>
+    <li><div><b>A raycaster instead of diffusion.</b><p>For found-footage pieces, diffusion can't hold one frame to the next. A deterministic voxel raycaster can: frame N+1 is the same world re-measured, not re-imagined. Its consecutive-frame delta is 5.97/255, and it matched the reference film's mean luma within 1.1.</p></div></li>
+    <li><div><b>A generator, not a file.</b><p>The comedy sound library is 31 seeded generators, so a gag that lands four times plays four different versions, with nothing to license. 325 checks run, including one that the effect survives a phone speaker.</p></div></li>
+  </ol>
+  <p class="ask">Withheld: every client film, the templates and workspaces, voice clones and the engine source. I can walk through the code and a live render on a screen share.</p>
+  <p class="note mono">Stack: Node.js · Python · ComfyUI · FLUX / SDXL / Wan 2.2 (GGUF) · faster-whisper · Kokoro · ffmpeg. The open-source cousin of its gates: <a href="https://github.com/aguilar-gtm/llm-output-gates">llm-output-gates</a>.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="gateline mono"><b>next</b><a href="/work/agency-engine.html">agency engine</a><a href="/work/signal-desk.html">signal desk</a><a href="/work/agent-os.html">agent OS</a></div></div></footer>
+</body>
+</html>

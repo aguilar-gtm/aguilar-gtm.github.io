@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent OS · Alejandro Aguilar Alarcon</title>
+<meta name="description" content="The operating layer around a coding agent: state, memory, guardrails, receipts and scheduled engines. Case study; guardrails public.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="bar"><div class="wrap mono"><a href="/" style="text-decoration:none">aguilar-gtm</a><nav><a class="hide-s" href="/#private">private builds</a><a href="https://github.com/aguilar-gtm">github</a><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">linkedin</a></nav></div></header>
+<main class="case"><div class="spine" aria-hidden="true"></div>
+
+<section class="stage pass"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>case · agent OS</b><span class="badge">guardrails public · the rest private</span></div>
+  <h1>The operating layer that lets one person run four products through a coding agent.</h1>
+  <p class="lede">Everything on this site was built through Claude Code, by someone who started with no coding background. An agent forgets everything between sessions and narrates its own work, so the agent itself was the easy part. The hard part was everything around it: state it can't lose, rules it can't skip, receipts it doesn't write, and engines that run while nobody is watching.</p>
+  <div class="nums">
+    <div><b>291</b><span>agent sessions on this layer</span></div>
+    <div><b>498</b><span>tool calls refused by the guard</span></div>
+    <div><b>4</b><span>engines on a schedule</span></div>
+    <div><b>1</b><span>file allowed to hold a live number</span></div>
+  </div>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>01 · shape</b><span>one session, start to close</span></div>
+  <h2>The agent reads a computed brief, works behind a guard, and closes by writing state.</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 980 220" role="img" aria-label="Agent OS session loop">
+      <rect class="box" x="10" y="30" width="200" height="60" rx="4"/><text class="t" x="22" y="54">session brief</text><text class="d" x="22" y="74">ledger computed from the record</text>
+      <rect class="gate" x="240" y="30" width="200" height="60" rx="4"/><text class="t" x="252" y="54">guard (PreToolUse)</text><text class="d" x="252" y="74">refuses known-defect calls</text>
+      <rect class="box" x="470" y="30" width="200" height="60" rx="4"/><text class="t" x="482" y="54">work</text><text class="d" x="482" y="74">gates write hash-bound receipts</text>
+      <rect class="box" x="700" y="30" width="270" height="60" rx="4"/><text class="t" x="712" y="54">trace (PostToolUse)</text><text class="d" x="712" y="74">the harness logs what really happened</text>
+      <path class="ln" d="M210 60 H240 M440 60 H470 M670 60 H700"/>
+      <rect class="box" x="470" y="130" width="500" height="60" rx="4"/><text class="t" x="482" y="154">session close</text><text class="d" x="482" y="174">rewrites the one state file, then a checker fails any stale copy</text>
+      <path class="ln" d="M835 90 V130 M470 160 H110 V90"/>
+      <text class="d" x="120" y="150">next session starts from it</text>
+    </svg>
+  </figure>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>02 · decisions</b><span>each one fixes a way agents fail</span></div>
+  <h2>Prose reminders have a measured failure rate. So everything here is code.</h2>
+  <ol class="mech">
+    <li><div><b>One file holds the truth.</b><p>Live numbers like revenue, focus and deadlines live in one capped state file. A checker fails the session if a copy of any of them shows up anywhere else, because a real revenue figure once sat correctly in that file while every other layer reported zero for weeks.</p><span class="why">no other file may hold a copy of a live number</span></div></li>
+    <li><div><b>The brief is computed, not written.</b><p>Each session opens with a brief built from the record. It counts closes that reported delivery but were never billed, flags sentences that repeat across sessions, lists sessions that never closed, and shows each product's development days against a weekly cadence. A sentence the agent wrote about itself counts for nothing.</p><span class="why">the ledger changes when the record does, not when the story does</span></div></li>
+    <li><div><b>Mistakes become refusals.</b><p>Once a mistake has cost a real defect three times, it becomes a guard rule that blocks the tool call and gives the fix. That's 15 rules and 498 refusals so far, each rule carrying a test that proves it fires.</p><span class="why">public: <a href="https://github.com/aguilar-gtm/claude-code-guardrails">claude-code-guardrails</a></span></div></li>
+    <li><div><b>The receipt isn't the agent's.</b><p>A hook written by the harness after each tool call logs every action that changed a file or left the machine. The agent's summary is a claim, and the trace is the receipt. They have different authors.</p></div></li>
+    <li><div><b>Engines run while nobody's watching.</b><p>Scheduled jobs run without anyone at the keyboard: a 07:00 prospect and job finder, an hourly gig watch, a daily channel operator, and a nightly vault backup. Each one finds and prepares work, and none of them sends anything. Every send is a human decision.</p></div></li>
+  </ol>
+  <p class="ask">Withheld: the vault, memory and state files, because they're personal and client data. The guardrails are public. I can show the rest on a screen share.</p>
+  <p class="note mono">Stack: Claude Code (hooks, skills, slash commands) · Python · PowerShell · Windows Task Scheduler · Obsidian-compatible markdown.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="gateline mono"><b>next</b><a href="/work/video-engine.html">video engine</a><a href="/work/agency-engine.html">agency engine</a><a href="/work/signal-desk.html">signal desk</a></div></div></footer>
+</body>
+</html>

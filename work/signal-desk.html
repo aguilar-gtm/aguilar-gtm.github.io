@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signal desk · Alejandro Aguilar Alarcon</title>
+<meta name="description" content="Signal-based outbound for a crypto-compliance vendor. Case study; employer code, described at CV level.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="bar"><div class="wrap mono"><a href="/" style="text-decoration:none">aguilar-gtm</a><nav><a class="hide-s" href="/#private">private builds</a><a href="https://github.com/aguilar-gtm">github</a><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">linkedin</a></nav></div></header>
+<main class="case"><div class="spine" aria-hidden="true"></div>
+
+<section class="stage pass"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>case · signal desk</b><span class="badge">employer code · described at CV level</span></div>
+  <h1>Outbound that starts from a reason to write, not from a list.</h1>
+  <p class="lede">I built this at a crypto-compliance vendor, as part of the growth team. Compliance buyers don't answer cold lists. They answer when something just changed for them: a new license, a first compliance hire, a filing. So the work was to watch for those changes, rank them, and put a draft that names the change in front of a person within the hour.</p>
+  <div class="nums">
+    <div><b>hourly</b><span>signal desk with drafts ready for review</span></div>
+    <div><b>6</b><span>scheduled jobs: monitors, brief, desk</span></div>
+    <div><b>2,000+</b><span>automated assertions</span></div>
+    <div><b>1</b><span>rule: a person sends, never the system</span></div>
+  </div>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>01 · shape</b><span>from change to draft</span></div>
+  <h2>Monitors, then a brief, then a desk, then a person.</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 980 220" role="img" aria-label="Signal desk architecture">
+      <text class="d" x="10" y="18">MONITORS (scheduled)</text>
+      <rect class="box" x="10" y="28" width="180" height="30" rx="4"/><text class="t" x="20" y="48">hiring signals</text>
+      <rect class="box" x="10" y="64" width="180" height="30" rx="4"/><text class="t" x="20" y="84">ATS changes</text>
+      <rect class="box" x="10" y="100" width="180" height="30" rx="4"/><text class="t" x="20" y="120">public licensing registry</text>
+      <rect class="box" x="10" y="136" width="180" height="30" rx="4"/><text class="t" x="20" y="156">regulatory filings</text>
+      <rect class="box" x="10" y="172" width="180" height="30" rx="4"/><text class="t" x="20" y="192">accelerator directory</text>
+      <path class="ln" d="M190 43 H240 V187 H190 M190 79 H240 M190 115 H240 M190 151 H240 M240 115 H290"/>
+      <rect class="box" x="290" y="88" width="160" height="54" rx="4"/><text class="t" x="302" y="112">daily brief</text><text class="d" x="302" y="130">dedupe, score, rank</text>
+      <rect class="box" x="480" y="88" width="160" height="54" rx="4"/><text class="t" x="492" y="112">hourly desk</text><text class="d" x="492" y="130">draft per signal</text>
+      <rect class="gate" x="670" y="88" width="150" height="54" rx="4"/><text class="t" x="682" y="112">pre-send check</text><text class="d" x="682" y="130">claims, do-not-contact</text>
+      <rect class="box" x="850" y="88" width="120" height="54" rx="4"/><text class="t" x="862" y="112">a person</text><text class="d" x="862" y="130">reviews, sends</text>
+      <path class="ln" d="M450 115 H480 M640 115 H670 M820 115 H850"/>
+    </svg>
+    <figcaption class="mono">Lanes shown by category. The specific sources and the scoring are the employer's, and aren't described here.</figcaption>
+  </figure>
+</div></section>
+
+<section class="stage"><span class="node"></span><div class="wrap">
+  <div class="gateline mono"><b>02 · what I built</b><span>python, node.js, scheduled jobs</span></div>
+  <h2>Three systems, one rule: a person sends.</h2>
+  <ol class="mech">
+    <li><div><b>Signal-based outbound.</b><p>Monitors watch hiring signals, regulatory filings and public registries on a schedule. The strongest signals arrive hourly, each with a draft email that names the change, ready for review.</p></div></li>
+    <li><div><b>Outbound infrastructure.</b><p>Sending on Smartlead, with SPF, DKIM and DMARC set up on the sending domains. A Python pipeline validated and scored inbound event leads against the ICP, and that scored list fed a live campaign. A pre-send check catches unapproved claims and do-not-contact domains before anything goes out.</p></div></li>
+    <li><div><b>A generated customer-facing page.</b><p>The product's What's New page is a generated build from the product changelog, not a hand-edited page. It has a guarded edit tool and a rebuild test, so the public page can't drift from what actually shipped.</p></div></li>
+  </ol>
+  <p class="ask">This is my employer's system, so the code, sources, scoring and data stay private and this page goes no deeper than my CV. The <a href="/#signals">desk on the home page</a> replays the shape on fictional companies. I can explain the design decisions in an interview without showing the code.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="gateline mono"><b>next</b><a href="/work/agency-engine.html">agency engine</a><a href="/work/agent-os.html">agent OS</a><a href="/work/video-engine.html">video engine</a></div></div></footer>
+</body>
+</html>
