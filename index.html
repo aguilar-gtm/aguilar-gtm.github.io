@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alejandro Aguilar Alarcon · GTM Engineer</title>
+<meta name="description" content="GTM engineer. Outbound systems that refuse to lie: signal desks, registry-built lists, gated AI copy. Interactive demos on synthetic data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e0c; --panel:#141512; --line:#262823; --dim:#8a8b82; --text:#e9e7df; --soft:#bdbbb2;
+  --pass:#7bd88f; --block:#e8b04a; --fail:#ef6f5e; --focus:#e9e7df;
+  --serif:"Newsreader",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --ink:#f4f2ec; --panel:#ebe8e0; --line:#d6d2c7; --dim:#6f6d64; --text:#191a17; --soft:#3c3d38;
+    --pass:#1f7a3a; --block:#9a6400; --fail:#b8321f; --focus:#191a17;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--serif);font-size:19px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.bar .wrap{display:flex;justify-content:space-between;align-items:center;height:48px}
+header.bar nav a{margin-left:20px;text-decoration:none;color:var(--dim)}
+header.bar nav a:hover{color:var(--text)}
+
+/* the spine: the page is a pipeline run */
+main{position:relative}
+.spine{position:absolute;left:max(24px,calc(50% - 536px));top:0;bottom:0;width:1px;background:var(--line)}
+.stage{position:relative;padding:88px 0 24px 0}
+.stage .wrap{padding-left:56px}
+.node{position:absolute;left:max(18px,calc(50% - 542px));top:96px;width:13px;height:13px;border-radius:50%;background:var(--ink);border:1px solid var(--dim)}
+.stage.pass .node{border-color:var(--pass);box-shadow:0 0 0 4px color-mix(in srgb,var(--pass) 18%,transparent)}
+.gateline{color:var(--dim);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.gateline b{font-weight:600}
+.v-pass{color:var(--pass)} .v-block{color:var(--block)} .v-fail{color:var(--fail)}
+h1{font-weight:400;font-size:clamp(40px,6.4vw,76px);line-height:1.02;letter-spacing:-.02em}
+h2{font-weight:400;font-size:clamp(28px,3.6vw,40px);line-height:1.1;letter-spacing:-.01em;margin-bottom:12px}
+.lede{color:var(--soft);max-width:640px;margin-top:18px}
+.note{color:var(--dim);margin-top:12px;max-width:720px}
+
+/* desk */
+.desk{margin-top:44px;border:1px solid var(--line);background:var(--panel);border-radius:6px;overflow:hidden}
+.desk-head{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--dim)}
+.live::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--pass);margin-right:8px;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.rows{height:308px;overflow:hidden;position:relative}
+.row{display:grid;grid-template-columns:62px 92px 1fr 220px;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;animation:enter .45s ease-out}
+.row:hover,.row.sel{background:color-mix(in srgb,var(--text) 5%,transparent)}
+@keyframes enter{from{opacity:0;transform:translateY(-12px)}}
+.row .co{font-family:var(--serif);font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .co small{color:var(--dim);font-family:var(--mono);font-size:12px;margin-left:8px}
+.chips{display:flex;gap:6px;justify-content:flex-end}
+.chip{border:1px solid var(--line);border-radius:3px;padding:1px 6px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.chip.p{color:var(--pass);border-color:color-mix(in srgb,var(--pass) 45%,transparent)}
+.chip.b{color:var(--block);border-color:color-mix(in srgb,var(--block) 55%,transparent)}
+.chip.f{color:var(--fail);border-color:color-mix(in srgb,var(--fail) 55%,transparent)}
+.draft{border-top:1px solid var(--line);padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:24px;min-height:200px}
+.draft pre{white-space:pre-wrap;font-family:var(--serif);font-size:16.5px;line-height:1.5;color:var(--text)}
+.why dt{color:var(--dim);font-family:var(--mono);font-size:12px;margin-top:10px}
+.why dd{font-size:16px}
+
+/* funnel */
+.funnel{margin-top:30px;display:grid;gap:8px;max-width:860px}
+.f-row{display:grid;grid-template-columns:260px 1fr 72px;gap:14px;align-items:center}
+.f-bar{height:14px;background:var(--line);border-radius:2px;overflow:hidden}
+.f-bar i{display:block;height:100%;width:0;background:var(--soft);transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.f-row.last .f-bar i{background:var(--pass)}
+.f-row .n{text-align:right;font-variant-numeric:tabular-nums}
+
+/* console */
+.console{margin-top:30px;border:1px solid var(--line);border-radius:6px;background:var(--panel);display:grid;grid-template-columns:300px 1fr;min-height:470px;overflow:hidden}
+.acc{border-right:1px solid var(--line)}
+.acc button{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 14px;color:var(--text);font:inherit;font-size:16px;cursor:pointer}
+.acc button small{display:block;color:var(--dim);font-family:var(--mono);font-size:11.5px;margin-top:2px}
+.acc button.on{background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:inset 2px 0 0 var(--focus)}
+.work{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:4px 14px}
+.kv span:nth-child(odd){color:var(--dim);font-family:var(--mono);font-size:12px;padding-top:3px}
+textarea{width:100%;min-height:220px;background:var(--ink);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:12px;font:inherit;font-size:16px;line-height:1.5;resize:vertical}
+textarea:focus{outline:1px solid var(--focus)}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{background:none;border:1px solid var(--line);color:var(--text);padding:7px 12px;border-radius:4px;font-family:var(--mono);font-size:12.5px;cursor:pointer}
+.btn:hover{border-color:var(--dim)}
+.btn.primary{border-color:var(--focus)}
+.verdict{font-family:var(--mono);font-size:12.5px;line-height:1.7;min-height:64px;border-left:2px solid var(--line);padding-left:12px}
+
+/* guard table + engine list */
+table{border-collapse:collapse;width:100%;max-width:860px;margin-top:26px}
+td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.n{font-family:var(--mono);text-align:right;padding-right:22px;width:80px;font-variant-numeric:tabular-nums}
+td .mono{color:var(--dim)}
+.ledger{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:0 40px;max-width:980px}
+.ledger div{padding:14px 0;border-bottom:1px solid var(--line)}
+.ledger b{font-family:var(--mono);font-size:13px;font-weight:600;display:block;margin-bottom:4px}
+.ledger p{font-size:16.5px;color:var(--soft)}
+.repos{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:1000px}
+.repos a{background:var(--ink);padding:18px;text-decoration:none;display:block}
+.repos a:hover{background:var(--panel)}
+.repos b{font-family:var(--mono);font-size:13.5px;font-weight:600}
+.repos p{font-size:16px;color:var(--soft);margin-top:6px}
+footer{padding:80px 0 60px}
+footer .wrap{padding-left:56px}
+.withheld{display:inline-block;margin-top:10px;color:var(--dim)}
+
+@media (max-width:820px){
+  body{font-size:17.5px}
+  .spine,.node{left:16px}
+  .wrap{padding:0 16px}
+  .stage .wrap,footer .wrap{padding-left:40px}
+  .row{grid-template-columns:52px 1fr;gap:4px 10px}
+  .row .src{display:none}
+  .chips{grid-column:2;justify-content:flex-start}
+  .rows{height:380px}
+  .draft{grid-template-columns:1fr}
+  .f-row{grid-template-columns:1fr 64px}
+  .f-row .f-bar{grid-column:1/-1;order:3}
+  .console{grid-template-columns:1fr}
+  .acc{border-right:0;border-bottom:1px solid var(--line);display:flex;overflow-x:auto}
+  .acc button{min-width:220px;border-bottom:0;border-right:1px solid var(--line)}
+  .ledger,.repos{grid-template-columns:1fr}
+  header.bar nav a{margin-left:14px}
+  .hide-s{display:none}
+  h1{font-size:40px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap mono">
+  <span>aguilar-gtm<span class="hide-s"> / run 2026-10-12</span></span>
+  <nav><a class="hide-s" href="#signals">signals</a><a class="hide-s" href="#list">list</a><a class="hide-s" href="#console">console</a><a class="hide-s" href="#gates">gates</a><a href="https://github.com/aguilar-gtm">github</a><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">linkedin</a></nav>
+</div></header>
+
+<main>
+<div class="spine" aria-hidden="true"></div>
+
+<section class="stage pass" id="signals">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>00 · operator</b><span>Lima, Peru · UTC-5</span><span class="v-pass">PASS</span></div>
+    <h1>Alejandro Aguilar Alarcon.<br>I build outbound systems that refuse to lie.</h1>
+    <p class="lede">I'm a GTM engineer. I build signal monitors, registry-built lists and AI copy that can't leave the machine until a gate has read every number in it. Before I built these systems, I ran them: 2,500 inboxes reaching 260,000+ prospects a month across 13+ B2B accounts.</p>
+
+    <div class="desk" aria-label="Signal desk demo">
+      <div class="desk-head mono"><span class="live">signal desk · crypto-compliance vertical</span><span class="hide-s">synthetic data · click a row</span></div>
+      <div class="rows" id="rows"></div>
+      <div class="draft" id="draft"></div>
+    </div>
+    <p class="note mono">Built for a crypto-compliance vendor (name and code withheld). Monitors watch regulatory filings and hiring signals, and every hour the strongest ones arrive with a draft email ready for review. A pre-send check refuses unapproved claims and do-not-contact domains. The mockup replays that logic on fictional accounts.</p>
+  </div>
+</section>
+
+<section class="stage" id="list">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>01 · list</b><span>lista/edgar.py</span><span id="listv">running</span></div>
+    <h2>From 10,406 public filings to 50 accounts that just raised money.</h2>
+    <p class="lede">These numbers come from a real run on 2026-10-12 over public SEC Form D filings. Every filter states how many rows it dropped, so a short list can always be explained with numbers. No purchased data.</p>
+    <div class="funnel mono" id="funnel"></div>
+    <p class="note mono">Real output from <a href="https://github.com/aguilar-gtm/outbound-engine">outbound-engine</a>. The same engine builds Peruvian lists from the 18.4M-line tax registry and reads each company's own website for a team inbox.</p>
+  </div>
+</section>
+
+<section class="stage" id="console">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>02 · console</b><span>client workspace</span><span id="conv" class="v-pass">PASS</span></div>
+    <h2>Edit the draft and the receipt goes stale.</h2>
+    <p class="lede">This is the client console from my agency's engine, rebuilt here on synthetic Lima accounts. Each account shows where its contact came from. The copy step writes a receipt bound to the draft's exact bytes. Change one character and it no longer counts, so it can't be sent until the gates run again. Try adding "seamless", or a number with no source.</p>
+    <div class="console">
+      <div class="acc" id="acc"></div>
+      <div class="work" id="work"></div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="gates">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>03 · guardrails</b><span>hooks/guard.py</span><span class="v-pass">498 refusals</span></div>
+    <h2>Once a mistake has cost a real defect three times, it becomes code.</h2>
+    <p class="lede">My coding agent runs behind a hook that refuses tool calls known to ship defects. Every rule carries the date it was earned, the incident behind it and a test proving it fires. These are production counts since 2026-07-26.</p>
+    <table>
+      <tr><td class="n">232</td><td>Heredocs that mangled file contents <span class="mono">file-content-through-bash-heredoc</span></td></tr>
+      <tr><td class="n">146</td><td>Escape sequences dying inside inline replaces <span class="mono">escapes-in-python-heredoc</span></td></tr>
+      <tr><td class="n">47</td><td>Bash expanding $var before PowerShell sees it <span class="mono">powershell-through-bash</span></td></tr>
+      <tr><td class="n">30</td><td>Truncating writes into a notes vault that was once wiped <span class="mono">set-content-on-vault-file</span></td></tr>
+      <tr><td class="n">28</td><td>PDF extraction in Latin-1 that faked 19 test failures <span class="mono">pdftotext-without-utf8</span></td></tr>
+      <tr><td class="n">15</td><td>Ten more rules: frozen ffmpeg expressions, stdlib shadowing, missing HTML charset, and others</td></tr>
+    </table>
+    <p class="note mono"><a href="https://github.com/aguilar-gtm/claude-code-guardrails">claude-code-guardrails</a> · <a href="https://github.com/aguilar-gtm/llm-output-gates">llm-output-gates</a></p>
+  </div>
+</section>
+
+<section class="stage" id="video">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>04 · engine</b><span>video production, local GPU</span><span class="v-pass">20+ gates</span></div>
+    <h2>A video engine where every gate is named after the failure that earned it.</h2>
+    <p class="lede">For client video work I built a local production engine covering script, voice, picture, music and final cut. It runs on open models on one 8 GB GPU at $0 marginal cost. A delivery can't leave the machine without a PASS receipt from every stage. The outputs are client work, so here's the ledger instead.</p>
+    <div class="ledger">
+      <div><b>voice</b><p>A 34-line voiceover shipped with 11 defective takes. "1930" came out as "1960". Every take is now re-transcribed and diffed against the script.</p></div>
+      <div><b>route</b><p>A 43-second cut took about 7 hours, and the deterministic layers took 7 minutes of that. Renders are now costed from disk before the GPU starts. Measured ratio between generative and deterministic routes: 67:1.</p></div>
+      <div><b>hostcheck</b><p>A take predicted at 49 minutes ran 308 because free RAM sat at 0.2 GB. The gate now measures physical RAM and VRAM before an expensive job starts.</p></div>
+      <div><b>story</b><p>A film cleared nine gates with no story in it. Story is now the first gate: a subject who wants something, a visible turn, a promise that's paid off.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="repos">
+  <span class="node"></span>
+  <div class="wrap">
+    <div class="gateline mono"><b>05 · source</b><span>public repositories</span><span class="v-pass">tests pass</span></div>
+    <h2>Read the code.</h2>
+    <div class="repos">
+      <a href="https://github.com/aguilar-gtm/outbound-engine"><b>outbound-engine</b><p>Registry-built lists, an unbreakable ICP schema, contact finder. 278 tests.</p></a>
+      <a href="https://github.com/aguilar-gtm/gtm-signal-engine"><b>gtm-signal-engine</b><p>12 public sources a morning, gated and scored. About 1,600 records per run.</p></a>
+      <a href="https://github.com/aguilar-gtm/llm-output-gates"><b>llm-output-gates</b><p>Slop lexicon, claim check, hash-bound receipts for AI copy.</p></a>
+      <a href="https://github.com/aguilar-gtm/claude-code-guardrails"><b>claude-code-guardrails</b><p>15 rules, 81 test cases, 498 production refusals.</p></a>
+      <a href="https://github.com/aguilar-gtm/localflow"><b>localflow</b><p>Private push-to-talk dictation. Whisper plus a local LLM, nothing leaves the machine.</p></a>
+      <a href="https://github.com/aguilar-gtm/second-brain-template"><b>second-brain-template</b><p>Persistent memory for Claude Code. Setup in 10 minutes.</p></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <div class="gateline mono"><b>06 · release</b><span class="v-pass">open to GTM engineering roles, remote from LatAm</span></div>
+  <h2><a href="https://www.linkedin.com/in/alejandro-aguilar-alarcon-548096277">Talk to me on LinkedIn.</a></h2>
+  <span class="withheld mono">Every company, person and figure in the demos above is synthetic, except the SEC funnel. Client names and code are withheld.</span>
+</div></footer>
+
+<script>
+/* ---------- synthetic data ---------- */
+const SIGNALS = [
+  {src:"hiring", co:"Northwind Payments", tag:"BSA Officer opening", why:"Posted a BSA/AML Officer role 2 days ago. First compliance hire after a Series A.", source:"careers page · 2 days ago", draft:"Subject: the BSA Officer opening\n\nHi Dana,\n\nSaw the BSA Officer opening on your careers page. Teams at your stage usually hire the officer first and the tooling second, and the officer ends up building monitoring by hand.\n\nWe run that monitoring for payments companies, so your new hire starts with alerts instead of spreadsheets. Worth 15 minutes next week?\n\nSam", gates:["p","p","p"]},
+  {src:"registry", co:"Cobalt Remit", tag:"new MSB registration", why:"Appeared in the federal money-services registry this week, licensed in 4 states.", source:"public MSB registry · this week", draft:"Subject: your MSB registration\n\nHi Marcus,\n\nCongrats on the MSB registration that posted this week. The first exam usually asks for transaction monitoring evidence before the program feels finished.\n\nWe can show you what examiners asked our other remittance clients for. Open to a short call?\n\nSam", gates:["p","p","p"]},
+  {src:"filing", co:"Lattice Wallet", tag:"Form D · $9.5M", why:"Filed a Form D for $9,500,000. Officers named in the filing.", source:"SEC EDGAR Form D", draft:"Subject: after the raise\n\nHi Priya,\n\nWe've helped teams like yours cut false positives by 63% in the first quarter.\n\nWorth a look?\n\nSam", gates:["p","f","p"], fail:"claims: 63% appears with no cited source"},
+  {src:"hiring", co:"Meridian Exchange", tag:"2 compliance analyst roles", why:"Two analyst roles opened at once. A queue is backing up.", source:"ATS board · today", draft:"Subject: two analyst openings\n\nHi Leo,\n\nTwo analyst roles opening on the same day usually means the alert queue grew faster than the team. Hiring fixes the backlog in about a quarter. Tuning the rules fixes it this month.\n\nWant the checklist we use?\n\nSam", gates:["p","p","p"]},
+  {src:"filing", co:"Brightline Custody", tag:"Form D · $22M", why:"Raised $22,000,000. The contact's domain is on the do-not-contact list.", source:"SEC EDGAR Form D", draft:"Subject: custody compliance\n\nHi team,\n\nSaw the raise. Congrats.\n\nSam", gates:["p","p","b"], fail:"dnc: domain is on the do-not-contact list"},
+  {src:"hiring", co:"Tidal Ledger", tag:"Head of Compliance", why:"Replacing a Head of Compliance. A new leader re-evaluates vendors in their first 90 days.", source:"careers page · 5 days ago", draft:"Subject: the new Head of Compliance\n\nHi Ana,\n\nA new Head of Compliance usually reviews every vendor in the first 90 days. If monitoring is on that list, we'd like to be the benchmark you compare against.\n\nCan I send a one-page comparison?\n\nSam", gates:["p","p","p"]},
+  {src:"registry", co:"Quill Pay", tag:"state license added", why:"Added a money transmitter license in a new state.", source:"state licensing registry", draft:"Subject: leveraging synergies\n\nHi Omar,\n\nI wanted to delve into how Quill Pay can seamlessly elevate its compliance journey.\n\nSam", gates:["f","p","p"], fail:"slop: delve 9.4x, seamless, elevate"},
+];
+const GATES=["slop","claims","dnc"];
+
+/* ---------- signal desk ---------- */
+const rowsEl=document.getElementById("rows"), draftEl=document.getElementById("draft");
+let tick=0, selected=null;
+function stamp(){const d=new Date(Date.now()-tick*47000);return d.toTimeString().slice(0,5)}
+function chipHTML(s){return s.gates.map((g,i)=>`<span class="chip ${g}">${GATES[i]} ${g==="p"?"✓":g==="f"?"✕":"!"}</span>`).join("")}
+function addRow(){
+  const s=SIGNALS[tick%SIGNALS.length]; tick++;
+  const r=document.createElement("div"); r.className="row"; r.tabIndex=0;
+  r.innerHTML=`<span class="mono" style="color:var(--dim)">${stamp()}</span><span class="mono src" style="color:var(--dim)">${s.src}</span><span class="co">${s.co}<small>${s.tag}</small></span><span class="chips">${chipHTML(s)}</span>`;
+  const open=()=>{document.querySelectorAll(".row.sel").forEach(x=>x.classList.remove("sel"));r.classList.add("sel");show(s)};
+  r.addEventListener("click",open); r.addEventListener("keydown",e=>{if(e.key==="Enter")open()});
+  rowsEl.prepend(r);
+  while(rowsEl.children.length>9) rowsEl.lastChild.remove();
+}
+function show(s){
+  selected=s;
+  const ok=s.gates.every(g=>g==="p");
+  draftEl.innerHTML=`<pre>${s.draft.replace(/[&<]/g,c=>c==="&"?"&amp;":"&lt;")}</pre>
+  <dl class="why"><dt>WHY NOW</dt><dd>${s.why}</dd><dt>SOURCE</dt><dd>${s.source}</dd>
+  <dt>VERDICT</dt><dd class="mono ${ok?"v-pass":s.gates.includes("f")?"v-fail":"v-block"}">${ok?"PASS · queued for human review":"REFUSED · "+s.fail}</dd></dl>`;
+}
+for(let i=0;i<6;i++) addRow();
+show(SIGNALS[0]); rowsEl.querySelector(".row:last-child")?.classList.add("sel");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(!reduce) setInterval(addRow,3200);
+
+/* ---------- funnel (real run, 2026-10-12) ---------- */
+const F=[["Form D filings in the period",10406],["minus funds and vehicles",3912],["one row per company",3662],["dropped outside the US",-30],["dropped by industry",-182],["dropped declared vehicles",-95],["dropped by amount",-22],["in the list",50]];
+const fEl=document.getElementById("funnel");
+fEl.innerHTML=F.map((f,i)=>`<div class="f-row ${i===F.length-1?"last":""}"><span>${f[0]}</span><span class="f-bar"><i data-w="${Math.max(.6,Math.abs(f[1])/10406*100)}"></i></span><span class="n" data-n="${f[1]}">0</span></div>`).join("");
+function runFunnel(){
+  fEl.querySelectorAll("i").forEach((b,i)=>setTimeout(()=>b.style.width=b.dataset.w+"%",i*140));
+  fEl.querySelectorAll(".n").forEach((n,i)=>{const t=+n.dataset.n,t0=performance.now()+i*140;
+    (function step(now){const k=Math.min(1,Math.max(0,(now-t0)/1000));n.textContent=Math.round(t*(1-Math.pow(1-k,3))).toLocaleString("en-US");if(k<1)requestAnimationFrame(step)})(performance.now())});
+  const v=document.getElementById("listv"); setTimeout(()=>{v.textContent="PASS · 11 pass, 0 fail";v.className="v-pass";document.getElementById("list").classList.add("pass")},F.length*140+900);
+}
+new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){runFunnel();o.disconnect()}},{threshold:.35}).observe(fEl);
+
+/* ---------- console ---------- */
+const ACC=[
+  {co:"Ferretería Andina SAC",id:"RUC 20•••••••481",ind:"hardware wholesale",inbox:"ventas@ferreteria-andina.example",how:"domain guessed from legal name, DNS resolved, inbox read on /contacto",draft:"Hola equipo de Ferretería Andina,\n\nVi que atienden obras en Lima Norte y Callao. Cuando un pedido grande entra por WhatsApp, ¿quién lo pasa al sistema?\n\nArmamos ese paso para distribuidoras como la suya. ¿Les sirve una llamada corta el jueves?\n\nAlejandro"},
+  {co:"Clínica Dental Miraflores SAC",id:"RUC 20•••••••903",ind:"dental clinic",inbox:"citas@dental-miraflores.example",how:"site found in the public directory, inbox read on the home page footer",draft:"Hola equipo de la clínica,\n\nVi que agendan por WhatsApp y por teléfono. En clínicas de su tamaño, las citas que no se confirman el día anterior suelen ser las que se pierden.\n\n¿Les muestro cómo otras clínicas confirman automáticamente?\n\nAlejandro"},
+  {co:"Logística Pacífico EIRL",id:"RUC 20•••••••127",ind:"freight forwarding",inbox:"comercial@logistica-pacifico.example",how:"domain guessed (.com.pe), inbox read on /nosotros",draft:"Hola equipo comercial,\n\nVi que cotizan carga a Chile y Ecuador desde su web. ¿Cuántas cotizaciones llegan por correo y se responden al día siguiente?\n\nTenemos un flujo que responde en minutos con su propia tarifa. ¿Conversamos?\n\nAlejandro"},
+];
+const SLOP=[["delve",9.4],["seamless",0],["seamlessly",0],["elevate",0],["leverage",0],["robust",0],["cutting-edge",0],["underscores",13.4],["synergy",0],["synergies",0],["journey",0],["unlock",0],["game-changer",0],["revolucionar",0],["sinergia",0]];
+const accEl=document.getElementById("acc"), workEl=document.getElementById("work"), conv=document.getElementById("conv");
+let cur=0, receipt=null;
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function runGates(t){
+  const out=[], low=t.toLowerCase();
+  const hits=SLOP.filter(([w])=>new RegExp("\\b"+w+"\\b").test(low));
+  out.push(hits.length?["f","slop",hits.map(([w,r])=>r?`"${w}" ${r}x post-LLM`:`"${w}" banned phrase`).join(", ")]:["p","slop","0 lexicon hits, 0 banned phrases"]);
+  const figs=t.match(/(?:S\/\s?|US\$|\$)?\d[\d.,]*%|(?:S\/\s?|US\$|\$)\d[\d.,]*|\b\d{3,}(?:[.,]\d{3})*\b/g)||[];
+  out.push(figs.length?["f","claims",figs.map(f=>`${f} has no cited source`).join(", ")]:["p","claims","no figures to source"]);
+  const words=t.trim().split(/\s+/).length;
+  out.push(words<=100?["p","length",`${words} words, cap 100`]:["f","length",`${words} words, cap 100`]);
+  return out;
+}
+function paintVerdict(v,stale){
+  const el=document.getElementById("verdict");
+  if(stale){el.innerHTML=`<span class="v-block">BLOCKED · receipt is stale: the draft changed after it passed. Re-run the gates.</span>`;conv.textContent="BLOCKED";conv.className="v-block";return}
+  const ok=v.every(x=>x[0]==="p");
+  el.innerHTML=v.map(([s,g,d])=>`<span class="${s==="p"?"v-pass":"v-fail"}">${s==="p"?"PASS":"FAIL"}</span> ${g.padEnd(7," ")} ${d}`).join("<br>")+`<br>${ok?'<span class="v-pass">CLEARED</span> receipt sha256 '+receipt.slice(0,12)+"…":'<span class="v-fail">REFUSED</span> fix the draft, then re-run'}`;
+  conv.textContent=ok?"PASS":"FAIL"; conv.className=ok?"v-pass":"v-fail";
+}
+async function gate(){const t=document.getElementById("ta").value;const v=runGates(t);receipt=v.every(x=>x[0]==="p")?await sha(t):null;paintVerdict(v,false);document.getElementById("ta").dataset.h=receipt||""}
+function render(){
+  accEl.innerHTML=ACC.map((a,i)=>`<button class="${i===cur?"on":""}" data-i="${i}">${a.co}<small>${a.id} · ${a.ind}</small></button>`).join("");
+  accEl.querySelectorAll("button").forEach(b=>b.onclick=()=>{cur=+b.dataset.i;render()});
+  const a=ACC[cur];
+  workEl.innerHTML=`<div class="kv"><span>inbox</span><span>${a.inbox}</span><span>found by</span><span>${a.how}</span><span>source</span><span>public tax registry · sha256 recorded</span></div>
+  <textarea id="ta" spellcheck="false" aria-label="Draft email">${a.draft}</textarea>
+  <div class="btns"><button class="btn primary" id="rerun">run gates</button><button class="btn" id="slopit">insert slop</button><button class="btn" id="numit">insert unsourced number</button><button class="btn" id="reset">reset</button></div>
+  <div class="verdict" id="verdict"></div>`;
+  const ta=document.getElementById("ta");
+  ta.addEventListener("input",async()=>{if(receipt&&(await sha(ta.value))!==receipt)paintVerdict(null,true)});
+  document.getElementById("rerun").onclick=gate;
+  document.getElementById("slopit").onclick=()=>{ta.value=ta.value.replace(/\n\n/,"\n\nQueremos revolucionar su operación de forma seamless.\n\n");ta.dispatchEvent(new Event("input"))};
+  document.getElementById("numit").onclick=()=>{ta.value=ta.value.replace(/\n\n/,"\n\nNuestros clientes venden 38% más.\n\n");ta.dispatchEvent(new Event("input"))};
+  document.getElementById("reset").onclick=()=>{ta.value=a.draft;gate()};
+  gate();
+}
+render();
+</script>
+</body>
+</html>
